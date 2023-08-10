@@ -1,5 +1,10 @@
 import org.example.XMLHelper;
+import org.example.parser.DefaulXmlParserImplementation;
+import org.example.parser.XmlParser;
+import org.example.writer.DefaultXmlWriterImplementation;
+import org.example.writer.XmlWriter;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.io.FileNotFoundException;
@@ -7,9 +12,16 @@ import java.io.FileNotFoundException;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class XMLHelperTest {
+   XMLHelper helper;
+    @BeforeEach
+    public void SetUp(){
+        XmlParser parser = new DefaulXmlParserImplementation();
+        XmlWriter writer = new DefaultXmlWriterImplementation();
+        helper = new XMLHelper(parser, writer);
+    }
     @Test
     void testGetTargetValueById_whenGivenValidIdAndFile_ReturnTrue() {
-        XMLHelper helper = new XMLHelper();
+
         String filePath = "src/main/resources/sma_gentext.xml";
         String findId = "42007";
 
@@ -20,7 +32,6 @@ public class XMLHelperTest {
 
     @Test
     void testGetTargetValueById_whenGivenInvalidId_ReturnFalse() {
-        XMLHelper helper = new XMLHelper();
         String findId = "nonexistent_id";
         String filePath = "src/main/resources/sma_gentext.xml";
 

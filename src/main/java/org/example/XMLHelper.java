@@ -1,5 +1,7 @@
 package org.example;
 
+import org.example.parser.XmlParser;
+import org.example.writer.XmlWriter;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -18,12 +20,20 @@ import java.io.IOException;
 import java.util.logging.Logger;
 
 public class XMLHelper {
-
     private static final Logger logger = Logger.getLogger(XMLHelper.class.getName());
+
+    private final XmlParser xmlParser;
+    private final XmlWriter xmlWriter;
+
+    public XMLHelper(XmlParser xmlParser, XmlWriter xmlWriter) {
+        this.xmlParser = xmlParser;
+        this.xmlWriter = xmlWriter;
+    }
+
         public boolean getTargetValueById(String filePath, String findId) {
             try {
                 File inputFile = new File(filePath);
-                Document doc = parseXmlDocument(inputFile);
+                Document doc = xmlParser.parser(inputFile);
                 doc.getDocumentElement().normalize();
 
                 NodeList transUnitList = doc.getElementsByTagName("trans-unit");
@@ -55,24 +65,10 @@ public class XMLHelper {
                 Element targetElement = (Element) targetList.item(0);
                 String targetValue = targetElement.getTextContent();
                 Document newDoc = createNewDocument(targetValue);
-                writeToDocument(newDoc);
+                xmlWriter.write(newDoc);
                 return true;
             }
             return false;
-        }
-
-        private static Document parseXmlDocument(File inputFile) throws ParserConfigurationException, SAXException, IOException {
-            DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
-            DocumentBuilder dhBuilder = dbFactory.newDocumentBuilder();
-            return dhBuilder.parse(inputFile);
-        }
-
-        private void writeToDocument(Document newDoc) throws TransformerException {
-            TransformerFactory transformerFactory = TransformerFactory.newInstance();
-            Transformer transformer = transformerFactory.newTransformer();
-            DOMSource source = new DOMSource(newDoc);
-            StreamResult result = new StreamResult(new File("src/main/java/org/example/generatedDocuments/extracted.xml"));
-            transformer.transform(source, result);
         }
 
         private Document createNewDocument(String targetValue) throws ParserConfigurationException {
