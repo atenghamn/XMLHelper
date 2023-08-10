@@ -1,13 +1,12 @@
-import org.example.XMLHelper;
+package org.example.helper;
+
+import org.example.helper.XMLHelper;
 import org.example.parser.DefaulXmlParserImplementation;
 import org.example.parser.XmlParser;
 import org.example.writer.DefaultXmlWriterImplementation;
 import org.example.writer.XmlWriter;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
-import java.io.FileNotFoundException;
 
 import static org.junit.jupiter.api.Assertions.*;
 
