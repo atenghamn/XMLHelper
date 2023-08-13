@@ -21,7 +21,7 @@ public class XMLHelperTest {
     @Test
     void testGetTargetValueById_whenGivenValidIdAndFile_ReturnTrue() {
 
-        String filePath = "src/main/resources/sma_gentext.xml";
+        String filePath = "src/test/resources/sample.xml";
         String findId = "42007";
 
         boolean result = helper.getTargetValueById(filePath, findId);
@@ -32,7 +32,7 @@ public class XMLHelperTest {
     @Test
     void testGetTargetValueById_whenGivenInvalidId_ReturnFalse() {
         String findId = "nonexistent_id";
-        String filePath = "src/main/resources/sma_gentext.xml";
+        String filePath = "src/test/resources/invalid.xml";
 
         boolean result = helper.getTargetValueById(filePath, findId);
 
